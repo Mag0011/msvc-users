@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Others ###
+.DS_Store
+.mvn/
+META-INF/
+mvnw
+mvnw.cmd
