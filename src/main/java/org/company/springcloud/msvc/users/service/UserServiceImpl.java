@@ -45,4 +45,10 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findAllById(List<Long> listIds){
+        return (List<User>) userRepository.findAllById(listIds);
+    }
+
 }

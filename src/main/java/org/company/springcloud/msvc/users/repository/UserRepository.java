@@ -10,8 +10,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
+    @Override
+    Iterable<User> findAllById(Iterable<Long> longs);
+
+    /*
     @Query("SELECT u FROM Users u WHERE u.email =?1")
-    Optional<User> findByEmailQuery(String email);
+    Optional<User> findByEmailQuery(String email);*/
 
 
 }

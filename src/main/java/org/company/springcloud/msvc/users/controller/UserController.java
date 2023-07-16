@@ -1,14 +1,13 @@
 package org.company.springcloud.msvc.users.controller;
 
 import org.company.springcloud.msvc.users.entity.User;
+import org.company.springcloud.msvc.users.entity.request.ListUsersByCourseRequest;
 import org.company.springcloud.msvc.users.service.UserService;
 import org.company.springcloud.msvc.users.utils.RequestValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +31,12 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id){
         Optional<User> optionalUser = userService.findUserById(id);
         return optionalUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/getUsersByCourse") //fixme: this should be @Getter... but only works by using @Post...
+    public ResponseEntity<List<User>> getUsersByCourse(@RequestBody ListUsersByCourseRequest request){
+        List<User> listUsers = userService.findAllById(request.getListIds());
+        return ResponseEntity.status(HttpStatus.OK).body(listUsers);
     }
 
     @PostMapping("/createUser")
