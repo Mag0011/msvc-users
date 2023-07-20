@@ -79,7 +79,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         Optional<User> userDB = userService.findUserById(id);
         if(userDB.isPresent()) {
-            userService.delete(userDB.get());
+            userService.deleteById(userDB.get().getId());
             return ResponseEntity.noContent().build();
         }
         return  ResponseEntity.notFound().build();
