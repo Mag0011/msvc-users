@@ -5,6 +5,7 @@ import org.company.springcloud.msvc.users.entity.request.ListUsersByCourseReques
 import org.company.springcloud.msvc.users.service.UserService;
 import org.company.springcloud.msvc.users.utils.RequestValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,9 +23,16 @@ public class UserController {
     @Autowired
     private RequestValidationService requestValidationService;
 
+    @Autowired
+    private Environment env;
+
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers(){
-        return userService.findAll();
+    public ResponseEntity<Map<String, Object>> getAllUsers(){
+        Map<String, Object> body = new HashMap<>();
+        body.put("users", userService.findAll());
+        body.put("env", env.getProperty("config.text"));
+        body.put("pod_info", env.getProperty("MY_POD_NAME") + ":" + env.getProperty("MY_POD_IP"));
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping("/getById/{id}")
